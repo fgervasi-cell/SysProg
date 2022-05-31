@@ -1,17 +1,59 @@
 	ljmp	INIT
 
 INIT:
+A_BIT	equ	P2.0
+B_BIT	equ	P2.1
+C_BIT	equ	P2.2
+D_BIT	equ	P2.3
+E_BIT	equ	P2.4
+F_BIT	equ	P2.5
+G_BIT	equ	P2.6
+H_BIT	equ	p2.7
 	call	CLEAR_ALL
 	ljmp	MAIN
 
 
 MAIN:
-	mov	R2, #0Ah
+	jnb	A_BIT, CALL_A
+	jnb	B_BIT, CALL_B
+	jnb	C_BIT, CALL_C
+	jnb	D_BIT, CALL_D
+	jnb	E_BIT, CALL_E
+	jnb	F_BIT, CALL_F
+	jnb	G_BIT, CALL_G
+	jnb	H_BIT, CALL_H
+	ljmp	MAIN
+
+CALL_A:
 	call	LETTER_A
+	ljmp	MAIN
+
+CALL_B:
 	call	LETTER_L
+	ljmp	MAIN
+
+CALL_C:
+	call	LETTER_C
+	ljmp	MAIN
+
+CALL_D:
+	call	LETTER_D
+	ljmp	MAIN
+
+CALL_E:
 	call	LETTER_E
+	ljmp	MAIN
+
+CALL_F:
+	call	LETTER_F
+	ljmp	MAIN
+
+CALL_G:
 	call	LETTER_N
-	call	LETTER_A
+	ljmp	MAIN
+
+CALL_H:
+	call	LETTER_H
 	ljmp	MAIN
 
 CLEAR_ALL:
@@ -29,20 +71,48 @@ LETTER_A:
 	setb	P0.4
 	setb	P0.1
 	call	CLEAR_ALL
-	djnz	R2, LETTER_A
-	mov	R2, #0Ah
 	ret
 
-
-LETTER_L:
-	mov	P0, #01111110B
-	setb	P1.2
+LETTER_B:
+	mov	P0, #00011100B
+	setb	P1.1
+	setb	P1.5
+	call 	CLEAR_ALL
+	mov	P1, #00111110B
+	setb	P0.1
+	setb	P0.6
+	call 	CLEAR_ALL
+	mov 	P1, #00011100B
+	setb	P0.3
+	setb	P0.4
 	call	CLEAR_ALL
-	mov	P1, #00111100B
+	ret
+
+LETTER_C:
+	mov	P0, #01111110B
+	setb	P1.1
+	call	CLEAR_ALL
+	mov	P1, #00111110B
+	setb	P0.1
+	setb	P0.6
+	call 	CLEAR_ALL
+	setb	P1.5
+	setb	P0.2
+	call	CLEAR_ALL
+	setb	P1.5
+	setb	P0.5
+	call	CLEAR_ALL
+	ret
+
+LETTER_D:
+	mov	P0, #00111100B
+	setb	P1.2
+	setb	P1.6
+	call	CLEAR_ALL
+	mov	P1, #00111110B
+	setb	P0.1
 	setb	P0.6
 	call	CLEAR_ALL
-	djnz	R2, LETTER_L
-	mov	R2, #0Ah
 	ret
 
 
@@ -55,9 +125,40 @@ LETTER_E:
 	setb	P0.4
 	setb	P0.6
 	call	CLEAR_ALL
-	djnz	R2, LETTER_E
-	mov	R2, #05h
 	ret
+
+LETTER_F:
+	mov 	P0, #01111110B
+	setb	P1.1
+	call 	CLEAR_ALL
+	mov 	P1, #00011110B
+	setb	P0.1
+	setb	P0.3
+	call	CLEAR_ALL
+	ret
+
+LETTER_G:
+	ret
+
+LETTER_H:
+	mov	P0, #01111110B
+	setb	P1.1
+	setb	P1.6
+	call 	CLEAR_ALL
+	mov 	P1, #01111110B
+	setb	P0.4
+	call	CLEAR_ALL
+	ret
+
+LETTER_L:
+	mov	P0, #01111110B
+	setb	P1.2
+	call	CLEAR_ALL
+	mov	P1, #00111100B
+	setb	P0.6
+	call	CLEAR_ALL
+	ret
+
 
 LETTER_N:
 	mov	P0, #01111110B
@@ -76,11 +177,4 @@ LETTER_N:
 	setb	p0.5
 	setb	p1.5
 	call	CLEAR_ALL
-	djnz	R2, LETTER_N
-	mov	R2, #0Ah
-	ret
-
-DELAY:
-	djnz	R2, DELAY
-	mov	R2, #05h
 	ret
